@@ -37,7 +37,7 @@ function findPos(obj) {
         }
       }
 
-      $("body").append("<div id='keypad' class='keypad' z-index='99999'><div id='keypad_inner' class='keypad'></div></div><div id='keypad_placeholder'></div>");
+      $("body").append("<div id='keypad' class='keypad'><div id='keypad_inner' class='keypad'></div></div><div id='keypad_placeholder'></div>");
 
       var   $elem = jQuery.type(options.keypadDiv) == 'string' ? $(options.keypadDiv) : options.keypadDiv,
             $elem_placeholder = jQuery.type(options.keypadPlaceholderDiv) == 'string' ? $(options.keypadPlaceholderDiv) : options.keypadPlaceholderDiv;

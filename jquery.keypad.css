@@ -123,6 +123,7 @@ span.before_cursor {
     height: 50%;
     min-height: 250px;
     background: white;
+    z-index: 99999;
 }
 
 #keypad_inner {
