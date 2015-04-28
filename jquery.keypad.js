@@ -25,7 +25,7 @@ function findPos(obj) {
     $.fn[pluginName] = function(options) {
       options = $.extend(true, {}, defaults, options);
 
-
+      keypadVisible = false;
 
       function hideKeyPadIfRequired(e) {
         if (!$(event.target).parent().hasClass("keypad") && 
