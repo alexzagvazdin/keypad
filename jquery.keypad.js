@@ -102,6 +102,7 @@ function findPos(obj) {
               keypadVisible = true;
               $(".typed-cursor").hide();
               $(e.target).find(".typed-cursor").show();
+              rebuildKeypad();
               $elem_placeholder.show();
               $("#keypad").slideDown();
 
