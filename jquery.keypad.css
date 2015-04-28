@@ -112,6 +112,7 @@ span.keypad {
     border: 1px solid black;
     display: block;
     min-height: 1.2em;
+    overflow: hidden;
 }
 
 span.before_cursor {

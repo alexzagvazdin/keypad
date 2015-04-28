@@ -203,6 +203,14 @@ function findPos(obj) {
           }
         });
 
+        $elem.find("button").on("touchstart", function(e) {
+          $(e.target).css("background-color", "#888");
+        });
+
+        $elem.find("button").on("touchend", function(e) {
+          $(e.target).css("background-color", "");
+        });
+
       });
     };
     $.fn[pluginName].defaults = defaults;
