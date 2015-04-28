@@ -110,6 +110,8 @@ span.keypad {
     min-width: 100px;
     border-radius: 6px;
     border: 2px solid black;
+    display: block;
+    min-height: 1em;
 }
 
 span.before_cursor {
