@@ -42,27 +42,33 @@ function findPos(obj) {
       var   $elem = jQuery.type(options.keypadDiv) == 'string' ? $(options.keypadDiv) : options.keypadDiv,
             $elem_placeholder = jQuery.type(options.keypadPlaceholderDiv) == 'string' ? $(options.keypadPlaceholderDiv) : options.keypadPlaceholderDiv;
 
-      function rebuildKeypad() {
 
         var numbers = Array.apply(null, Array(9)).map(function (_, i) {
           return $(options.buttonTemplate).html(i+1).addClass('number');
         });
         numbers.push($(options.buttonTemplate).html(options.deleteButtonText).addClass(options.deleteButtonClass));
         numbers.push($(options.buttonTemplate).html("0").addClass('number').addClass('zero'));
-        if (options.showDecimal) {
-          numbers.push($(options.buttonTemplate).html(".").addClass('number'));
-        }
-       if (options.showIncDec) {
-          numbers.push($(options.buttonTemplate).html("+").addClass('inc'));
-          numbers.push($(options.buttonTemplate).html("-").addClass('dec'));
-        }
-        $elem.empty();
+        numbers.push($(options.buttonTemplate).html(".").addClass('number').addClass("decimal"));
+        numbers.push($(options.buttonTemplate).html("+").addClass('inc'));
+        numbers.push($(options.buttonTemplate).html("-").addClass('dec'));
         $elem.html(numbers).addClass('keypad');
+
+
+      function rebuildKeypad() {
+
         if (options.showIncDec) {
           $('.number, .dec, .inc, .' + options.deleteButtonClass).css("height",  "18%");
+          $(".dec, .inc").show();
         }
-        if (!options.showDecimal) {
+        else {
+          $(".dec, .inc").hide();
+        }
+        if (options.showDecimal) {
+          $(".decimal").show();
+        }
+        else {
           $(".zero").css("width", "64%");
+          $(".decimal").hide();
         }
 
       }  
