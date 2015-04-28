@@ -37,32 +37,35 @@ function findPos(obj) {
         }
       }
 
-      $("body").append("<div id='keypad' class='keypad'><div id='keypad_inner' class='keypad'></div></div><div id='keypad_placeholder'></div>");
+      $("body").append("<div id='keypad' class='keypad' z-index='99999'><div id='keypad_inner' class='keypad'></div></div><div id='keypad_placeholder'></div>");
 
       var   $elem = jQuery.type(options.keypadDiv) == 'string' ? $(options.keypadDiv) : options.keypadDiv,
             $elem_placeholder = jQuery.type(options.keypadPlaceholderDiv) == 'string' ? $(options.keypadPlaceholderDiv) : options.keypadPlaceholderDiv;
 
+      function rebuildKeypad() {
 
-      var numbers = Array.apply(null, Array(9)).map(function (_, i) {
-        return $(options.buttonTemplate).html(i+1).addClass('number');
-      });
-      numbers.push($(options.buttonTemplate).html(options.deleteButtonText).addClass(options.deleteButtonClass));
-      numbers.push($(options.buttonTemplate).html("0").addClass('number').addClass('zero'));
-      if (options.showDecimal) {
-        numbers.push($(options.buttonTemplate).html(".").addClass('number'));
-      }
-     if (options.showIncDec) {
-        numbers.push($(options.buttonTemplate).html("+").addClass('inc'));
-        numbers.push($(options.buttonTemplate).html("-").addClass('dec'));
-      }
-      $elem.html(numbers).addClass('keypad');
-      if (options.showIncDec) {
-        $('.number, .dec, .inc, .' + options.deleteButtonClass).css("height",  "18%");
-      }
-      if (!options.showDecimal) {
-        $(".zero").css("width", "64%");
-      }
+        var numbers = Array.apply(null, Array(9)).map(function (_, i) {
+          return $(options.buttonTemplate).html(i+1).addClass('number');
+        });
+        numbers.push($(options.buttonTemplate).html(options.deleteButtonText).addClass(options.deleteButtonClass));
+        numbers.push($(options.buttonTemplate).html("0").addClass('number').addClass('zero'));
+        if (options.showDecimal) {
+          numbers.push($(options.buttonTemplate).html(".").addClass('number'));
+        }
+       if (options.showIncDec) {
+          numbers.push($(options.buttonTemplate).html("+").addClass('inc'));
+          numbers.push($(options.buttonTemplate).html("-").addClass('dec'));
+        }
+        $elem.empty();
+        $elem.html(numbers).addClass('keypad');
+        if (options.showIncDec) {
+          $('.number, .dec, .inc, .' + options.deleteButtonClass).css("height",  "18%");
+        }
+        if (!options.showDecimal) {
+          $(".zero").css("width", "64%");
+        }
 
+      }  
 
       $(document).on('touchend click', function(e) {
           hideKeyPadIfRequired(e);
