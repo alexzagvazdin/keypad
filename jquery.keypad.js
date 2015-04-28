@@ -98,6 +98,7 @@ function findPos(obj) {
             input.id +
             "'><span class='before_cursor'></span><span class='typed-cursor blinking'>|</span></span>");
           $input.hide();
+          $('#keypad' + input.id).find("span.before_cursor").html($input.val());
         }
 
         $fake_input = $("#keypad" + input.id);
