@@ -109,9 +109,9 @@ span.keypad {
     text-align: left;
     min-width: 100px;
     border-radius: 6px;
-    border: 2px solid black;
+    border: 1px solid black;
     display: block;
-    min-height: 1em;
+    min-height: 1.2em;
 }
 
 span.before_cursor {
