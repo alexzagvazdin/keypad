@@ -1,10 +1,10 @@
 jQuery keypad plugin
 ====================
-This plugin is made for displaying numeric keypad on touchscreen devices. Try [demo](http://rawgit.com/visionect/keypad/master/demo.html).
+This plugin is made for displaying numeric keypad on touchscreen devices. Try [demo](http://rawgit.com/alexzagvazdin/keypad/master/demo.html).
 
 Usage
 -----
-* Include `jquery.keypad.css` in head of your html document.
+* Include `jquery.keypad.css` in the head of your html document.
 
   ```
   <link rel="stylesheet" type="text/css" href="jquery.keypad.css">
@@ -17,25 +17,26 @@ Usage
   <script type="text/javascript" src="jquery.keypad.js"></script>
   ```
 
-* Use `keypad` function on jQuery object.
+* Use `keypad` function on jQuery object for the input field.
 
   ```
   $(document).ready(function() {
-      $('#keypad').keypad();
+      $('#inputField').keypad();
   });
   ```
 
-By default it will write the value to input with class name `keypad` (you can change that with options) and will submit the form that input is in, when `ok` button is pressed.
+The plugin will replace a standard input field with a custom element on touch enabled devices and would display a keypad if the user taps in the field. For Windows laptops and tablets with touch screen, mouse click will display the regular text input allowing to use the hardware keyboard to enter the numbers. 
 
-Advance options
+Advanced options
 ---------------
 You can customize the plugin by providing a hash with options on initialization. eg:
 
 ```
 $(document).ready(function() {
     $('#keypad').keypad({
-        inputField: $('form #keypadinput'),
-        submitButtonText: 'enter'
+       inputCssClass: "myCss", // useful to inherit the CSS styles from the input field
+       showIncDec: true, // shows the "+" and "-" buttons in the keypad allowing to increment and decrement the numbers being enetered
+       showDecimal: true // shows the button for the decimal divider
     });
 });
 ```
@@ -44,11 +45,14 @@ Default options:
 
 ```
 {
-    inputField: 'input.keypad', //can be jQuery selector or jQuery object
-    buttonTemplate: '<button></button>',
-    submitButtonText: 'ok',
-    deleteButtonText: 'del',
-    submitButtonClass: 'submit',
-    deleteButtonClass: 'delete'
+      keypadDiv: '#keypad_inner',
+      keypadPlaceholderDiv: '#keypad_placeholder',
+      height: 460,
+      buttonTemplate: '<button></button>',
+      deleteButtonText: 'del',
+      deleteButtonClass: 'delete',
+      showDecimal: false,
+      showIncDec: false,
+      inputCssClass: ""
 }
 ```
