@@ -129,13 +129,15 @@ function findPos(obj) {
         });
 
         $fake_input.on('click', function(e) {
-          setTimeout(function() {
-            if (!keypadVisible) {
-              $input.show();
-              $('#keypad' + input.id).hide();
-              $input.focus();
-            }
-          }, 300);
+          if(! /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+            setTimeout(function() {
+              if (!keypadVisible) {
+                $input.show();
+                $('#keypad' + input.id).hide();
+                $input.focus();
+              }
+            }, 300);
+          }
         });
 
         $input.on('blur', function(e) {
