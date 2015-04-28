@@ -5,11 +5,127 @@
     background: #eee;
     border: 2px solid black;
     border-radius: 10px;
-    font-size: 3em;
+    font-size: 1.5em;
 }
 
 .keypad  button.delete,
 .keypad  button.submit {
     background: black;
     color: white;
+}
+
+.keypad  button.inc,
+.keypad  button.dec {
+    width: 48%;
+    background: black;
+    color: white;
+}
+
+#keypad {
+	position:fixed;
+	bottom: 0;
+	display: none;
+}
+
+#keypad_placeholder {
+	height: 50%;
+	min-height: 250px;
+	width: 100%;
+	display: none;
+}
+
+.typed-cursor {
+	font-weight: 100;
+    color: black;
+}
+	 
+
+.typed-cursor {
+	color: #2E3D48;
+	font-weight: 100;
+	display: none;
+}
+
+.typed-cursor.blinking {
+  -webkit-animation: 1s blink step-end infinite;
+	-moz-animation: 1s blink step-end infinite;
+	-ms-animation: 1s blink step-end infinite;
+	-o-animation: 1s blink step-end infinite;
+	animation: 1s blink step-end infinite;
+}
+
+@keyframes "blink" {
+	from,to {
+	color: transparent;
+}
+ 50% {
+    color: black;
+ }
+
+}
+
+@-moz-keyframes blink {
+	from,to {
+	color: transparent;
+}
+ 50% {
+   color: black;
+ }
+
+}
+
+@-webkit-keyframes "blink" {
+	from,to {
+	color: transparent;
+}
+ 50% {
+   color: black;
+ }
+
+}
+
+@-ms-keyframes "blink" {
+	from,to {
+	color: transparent;
+}
+ 50% {
+   color: black;
+ }
+
+}
+
+@-o-keyframes "blink" {
+	from,to {
+	color: transparent;
+}
+ 50% {
+   color: black;
+ }
+}
+
+span.keypad {
+    color: black;
+    background: white;
+    text-align: left;
+    min-width: 100px;
+    border-radius: 6px;
+    border: 2px solid black;
+}
+
+span.before_cursor {
+}
+
+#keypad {
+    margin: auto;
+    width: 97%;
+    height: 50%;
+    min-height: 250px;
+    background: white;
+}
+
+#keypad_inner {
+    margin: auto;
+    max-width: 460px;
+    height: 90%;
+    text-align: center;
 }

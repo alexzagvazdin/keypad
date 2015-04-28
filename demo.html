@@ -2,49 +2,49 @@
 <html>
 <head>
     <title>Keypad Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0"/>
     <link rel="stylesheet" type="text/css" href="jquery.keypad.css">
     <style type="text/css">
-        body {
-            width: 600px;
-            height: 800px;
-        }
-        #keypad {
-            margin: 0 auto;
-            width: 420px;
-            height: 560px;
-        }
-        input {
+        .pad {
             color: black;
             background: white;
-            text-align: center;
-            margin: 70px auto 40px;
-            font-size: 3em;
+            text-align: left;
             display: block;
-            width: 400px;
+            margin-bottom: 20px;
+            font-size: 2em;
+            width: 200px;
+            height: 1.2em;
             border-radius: 6px;
             border: 2px solid black;
         }
+
     </style>
 </head>
 <body>
     <form>
-        <input type="password" class="keypad" disabled="disabled" />
+        <input type="text" class="pad" id="numfield1" />
+        <input type="text" class="pad" id="numfield2" />
+        <input type="text" class="pad" id="numfield3" />
+        <input type="text" class="pad" id="numfield4" />
+        <input type="text" class="pad" id="numfield5" />
+        <input type="text" class="pad" id="numfield6" />
+        <input type="text" class="pad" id="numfield7" />
+        <input type="text" class="pad" id="numfield8" />
     </form>
-    <div id="keypad"></div>
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="//rawgit.com/visionect/koalalib/master/jquery.trackmanipulation.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="jquery.keypad.js"></script>
     <script type="text/javascript">
+        var moveEvent = false;
+        var keypadVisible = false;
+        function is_touch_device() {
+          return 'ontouchstart' in window // works on most browsers 
+              || 'onmsgesturechange' in window; // works on ie10
+        };
         $(document).ready(function() {
-            $('#keypad').keypad();
-            $('input').change(function() {
-                $(this).tmList({bitDepth: 1, A2: true}); // trigger fast redraw for visionect tablet
-            });
-            $('form').submit(function(e) {
-                e.preventDefault();
-                console.log($('input.keypad').val());
-            });
+             $(".pad").keypad({inputCssClass: "pad", showDecimal: false, showIncDec: true });
         });
+
+
     </script>
 </body>
 </html>
