@@ -64,6 +64,7 @@ function findPos(obj) {
           $(".dec, .inc").hide();
         }
         if (options.showDecimal) {
+          $(".zero").css("width", "31%");
           $(".decimal").show();
         }
         else {
