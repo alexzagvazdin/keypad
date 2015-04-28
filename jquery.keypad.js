@@ -61,6 +61,7 @@ function findPos(obj) {
           $(".dec, .inc").show();
         }
         else {
+          $('.number, .dec, .inc, .' + options.deleteButtonClass).css("height",  "23%");
           $(".dec, .inc").hide();
         }
         if (options.showDecimal) {
