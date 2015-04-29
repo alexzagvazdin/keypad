@@ -120,13 +120,13 @@ function findPos(obj) {
               $elem_placeholder.show();
               $("#keypad").slideDown();
 
-              keypad_height = $(window).height() / 2 > 300 ? $(window).height() / 2 : 300
+              keypad_height = $(window).height() / 3 > 350 ? $(window).height() / 3 : 350
               screen_height = $(window).height() - keypad_height;
 
               $elem_placeholder.css("height", keypad_height);
 
               $("html, body").animate({ scrollTop: findPos(e.target) - 
-                (keypad_height - $(e.target).height() - 15)}, 600);
+                (screen_height - $(e.target).height() - 15)}, 600);
 
               $global_input = $('#' + e.target.id.substring(6));
 
