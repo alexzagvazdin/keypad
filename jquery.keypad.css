@@ -161,7 +161,7 @@ span.before_cursor {
 
 #keypad {
     margin: auto;
-    width: 97%;
+    width: 100%;
     height: 33%;
     min-height: 350px;
     z-index: 99999;
