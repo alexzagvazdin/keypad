@@ -126,7 +126,7 @@ function findPos(obj) {
               $elem_placeholder.css("height", keypad_height);
 
               $("html, body").animate({ scrollTop: findPos(e.target) - 
-                (screen_height - $(e.target).height() - 20)}, 600);
+                (screen_height - $(e.target).height() - 5)}, 600);
 
               $global_input = $('#' + e.target.id.substring(6));
 
