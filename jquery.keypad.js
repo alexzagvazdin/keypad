@@ -23,6 +23,10 @@ function findPos(obj) {
     };
 
     $.fn[pluginName] = function(options) {
+
+
+      if(!'ontouchstart' in document.documentElement) return;
+
       options = $.extend(true, {}, defaults, options);
 
       keypadVisible = false;
@@ -141,12 +145,16 @@ function findPos(obj) {
         });
 
         $input.on('blur', function(e) {
-          $input.hide();
-          $('#keypad' + input.id).show();
+          if ($('#keypad' + input.id).length) {
+            $input.hide();
+            $('#keypad' + input.id).show();
+          }
         })
 
         $input.on('change', function(e) {
-          $('#keypad' + input.id).find("span.before_cursor").html($input.val());
+          if ($('#keypad' + input.id).length) {
+            $('#keypad' + input.id).find("span.before_cursor").html($input.val());
+          }
         });
 
         $elem.find('.number').on('touchend click', function(e) {
