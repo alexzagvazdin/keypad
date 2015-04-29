@@ -6,20 +6,61 @@
     border: 2px solid black;
     border-radius: 10px;
     font-size: 1.5em;
+
+    background-color: #f4f5f5; 
+    background-image: linear-gradient(to bottom, #f4f5f5, #dfdddd);
+}
+
+.keypad button.pressed {
+    background-color: #a9aaaa; 
+    background-image: linear-gradient(to bottom, #a9aaaa, #969393);
 }
 
 .keypad  button.delete,
 .keypad  button.submit {
-    background: black;
-    color: white;
+
+    background-color: #d3d3d3; 
+    background-image: linear-gradient(to bottom, #d3d3d3, #707070);
 }
 
-.keypad  button.inc,
-.keypad  button.dec {
-    width: 48%;
-    background: black;
-    color: white;
+.keypad  button.delete.pressed,
+.keypad  button.submit.pressed {
+
+    background-color: #989898; 
+    background-image: linear-gradient(to bottom, #989898, #353535);
 }
+
+
+.keypad button.inc
+{
+    width: 48%;
+    font-weight: bold;
+
+    background-color: #a9db80; 
+    background-image: linear-gradient(to bottom, #a9db80, #96c56f);
+}
+
+.keypad button.inc.pressed
+{
+    background-color: #5fa045; 
+    background-image: linear-gradient(to bottom, #5fa045, #5b9234);
+}
+
+.keypad button.dec
+{
+    width: 48%;
+    font-weight: bold;
+
+    background-color: #ff9a9a; 
+    background-image: linear-gradient(to bottom, #ff9a9a, #ff4040);
+}
+
+.keypad button.dec.pressed
+{
+    background-color: #c45f5f; 
+    background-image: linear-gradient(to bottom, #c45f5f, #c40505);
+}
+
 
 #keypad {
 	position:fixed;
@@ -28,7 +69,7 @@
 }
 
 #keypad_placeholder {
-	height: 50%;
+	height: 250px;
 	min-height: 250px;
 	width: 100%;
 	display: none;
@@ -121,15 +162,28 @@ span.before_cursor {
 #keypad {
     margin: auto;
     width: 97%;
-    height: 50%;
-    min-height: 250px;
-    background: white;
+    height: 33%;
+    min-height: 350px;
     z-index: 99999;
+    background-color: #f1f9f5;
+    background-image: linear-gradient(to bottom, #f1f9f5, #b5bFcE);
 }
 
 #keypad_inner {
     margin: auto;
-    max-width: 460px;
-    height: 90%;
+    max-width: 400px;
+    height: 85%;
     text-align: center;
+}
+
+#keypad_top {
+    text-align: right;
+}
+
+#keypad_done {
+    font-size: 1em;
+    color: blue;
+    border: none;
+    background: transparent;
+    text-align: right;
 }

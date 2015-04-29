@@ -15,7 +15,7 @@ function findPos(obj) {
       keypadPlaceholderDiv: '#keypad_placeholder',
       height: 460,
       buttonTemplate: '<button></button>',
-      deleteButtonText: 'del',
+      deleteButtonText: 'Del',
       deleteButtonClass: 'delete',
       showDecimal: false,
       showIncDec: false,
@@ -37,11 +37,12 @@ function findPos(obj) {
           $("#keypad").hide();
           $(".typed-cursor").hide();
           $("#keypad_placeholder").hide();        
+          $global_input.trigger("blur");
           keypadVisible = false;
         }
       }
 
-      $("body").append("<div id='keypad' class='keypad'><div id='keypad_inner' class='keypad'></div></div><div id='keypad_placeholder'></div>");
+      $("body").append("<div id='keypad' class='keypad'><div id='keypad_top'><button id='keypad_done'>Done</button></div><div id='keypad_inner' class='keypad'></div></div><div id='keypad_placeholder'></div>");
 
       var   $elem = jQuery.type(options.keypadDiv) == 'string' ? $(options.keypadDiv) : options.keypadDiv,
             $elem_placeholder = jQuery.type(options.keypadPlaceholderDiv) == 'string' ? $(options.keypadPlaceholderDiv) : options.keypadPlaceholderDiv;
@@ -50,11 +51,11 @@ function findPos(obj) {
         var numbers = Array.apply(null, Array(9)).map(function (_, i) {
           return $(options.buttonTemplate).html(i+1).addClass('number');
         });
-        numbers.push($(options.buttonTemplate).html(options.deleteButtonText).addClass(options.deleteButtonClass));
-        numbers.push($(options.buttonTemplate).html("0").addClass('number').addClass('zero'));
         numbers.push($(options.buttonTemplate).html(".").addClass('number').addClass("decimal"));
-        numbers.push($(options.buttonTemplate).html("+").addClass('inc'));
+        numbers.push($(options.buttonTemplate).html("0").addClass('number').addClass('zero'));
+        numbers.push($(options.buttonTemplate).html(options.deleteButtonText).addClass(options.deleteButtonClass));
         numbers.push($(options.buttonTemplate).html("-").addClass('dec'));
+        numbers.push($(options.buttonTemplate).html("+").addClass('inc'));
         $elem.html(numbers).addClass('keypad');
 
 
@@ -97,14 +98,14 @@ function findPos(obj) {
           $input = $(input);
 
 
-        if ('ontouchstart' in document.documentElement) {
-          $input.after("<span class='keypad numinput " + options.inputCssClass + 
-            "' id='keypad" + 
-            input.id +
-            "'><span class='before_cursor'></span><span class='typed-cursor blinking'>|</span></span>");
-          $input.hide();
-          $('#keypad' + input.id).find("span.before_cursor").html($input.val());
-        }
+        if(!'ontouchstart' in document.documentElement) return;
+
+        $input.after("<span class='keypad numinput " + options.inputCssClass + 
+          "' id='keypad" + 
+          input.id +
+          "'><span class='before_cursor'></span><span class='typed-cursor blinking'>|</span></span>");
+        $input.hide();
+        $('#keypad' + input.id).find("span.before_cursor").html($input.val());
 
         $fake_input = $("#keypad" + input.id);
 
@@ -120,6 +121,8 @@ function findPos(obj) {
               $("#keypad").slideDown();
 
               screen_height = $(window).height() / 2 > 250 ? $(window).height() / 2 : 250;
+
+              $elem_placeholder.css("height", screen_height);
 
               $("html, body").animate({ scrollTop: findPos(e.target) - 
                 (screen_height - $(e.target).height() - 20)}, 600);
@@ -213,12 +216,12 @@ function findPos(obj) {
           }
         });
 
-        $elem.find("button").on("touchstart", function(e) {
-          $(e.target).css("background-color", "#888");
+        $elem.find("button").on("touchstart mousedown", function(e) {
+          $(e.target).addClass("pressed");
         });
 
-        $elem.find("button").on("touchend", function(e) {
-          $(e.target).css("background-color", "");
+        $elem.find("button").on("touchend mouseup", function(e) {
+          $(e.target).removeClass("pressed");
         });
 
       });
