@@ -32,8 +32,6 @@ document.addEventListener("deviceready", function(){
       inputCssClass: ""
     };
 
-    console.log("initing");
-
       keypadVisible = false;
 
       function hideKeyPadIfRequired(e) {
@@ -46,6 +44,27 @@ document.addEventListener("deviceready", function(){
           keypadVisible = false;
         }
       }
+
+      function rebuildKeypad(target) {
+
+        if ($(target).hasClass("showIncDec")) {
+          $('.number, .dec, .inc, .delete').css("height",  "18%");
+          $(".dec, .inc").show();
+        }
+        else {
+          $('.number, .dec, .inc, .delete').css("height",  "23%");
+          $(".dec, .inc").hide();
+        }
+        if ($(target).hasClass("showDecimal")) {
+          $(".zero").css("width", "31%");
+          $(".decimal").show();
+        }
+        else {
+          $(".zero").css("width", "64%");
+          $(".decimal").hide();
+        }
+
+      } 
 
       var   $elem = $("#keypad_inner"),
             $elem_placeholder = $("#keypad_placeholder");
@@ -145,10 +164,50 @@ document.addEventListener("deviceready", function(){
 
       })
 
+      //using event delegation instead of binding for better performance on large forms
+
+      $(document).on('touchstart', 'span.numinput', function(e) {
+          //event.stopPropagation();
+          event.preventDefault();
+          if(event.handled !== true) {          
+            keypadVisible = true;
+            $(".typed-cursor").hide();
+            $(e.target).find(".typed-cursor").show();
+            rebuildKeypad(e.target);
+            $("#keypad_placeholder").show();
+            $("#keypad").slideDown();
+
+            keypad_height = $("#keypad_placeholder").height();
+            screen_height = $(window).height() - keypad_height;
+
+            console.log('event');
+
+            $("html, body").animate({ scrollTop: findPos(e.target) - 
+              (screen_height - $(e.target).height() - 15) + keypad_scroll_fix}, 600);
+
+            $global_input = $('#' + e.target.id.substring(6));
+
+          }
+          else {
+            return false;
+          }
+      });
+
+      $(document).on('click', 'span.numinput', function(e) {
+        if(! /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+          setTimeout(function() {
+            if (!keypadVisible) {
+              $("#" + e.target.id.substring(6)).show();
+              $(e.target).hide();
+              $("#" + e.target.id.substring(6)).focus();
+            }
+          }, 300);
+        }
+      });
+
 
     $.fn[pluginName] = function(options) {
 
-      console.log("creating instance");
 
       if(!'ontouchstart' in document.documentElement) return;
 
@@ -156,26 +215,6 @@ document.addEventListener("deviceready", function(){
             $elem_placeholder = $("#keypad_placeholder");
 
 
-      function rebuildKeypad() {
-
-        if (options.showIncDec) {
-          $('.number, .dec, .inc, .' + options.deleteButtonClass).css("height",  "18%");
-          $(".dec, .inc").show();
-        }
-        else {
-          $('.number, .dec, .inc, .' + options.deleteButtonClass).css("height",  "23%");
-          $(".dec, .inc").hide();
-        }
-        if (options.showDecimal) {
-          $(".zero").css("width", "31%");
-          $(".decimal").show();
-        }
-        else {
-          $(".zero").css("width", "64%");
-          $(".decimal").hide();
-        }
-
-      }  
 
       options = $.extend(true, {}, defaults, options);
             
@@ -196,45 +235,51 @@ document.addEventListener("deviceready", function(){
 
         $fake_input = $("#keypad" + input.id);
 
-        $fake_input.on('touchstart', function(e) {
-            event.stopPropagation();
-            event.preventDefault();
-            if(event.handled !== true) {          
-              keypadVisible = true;
-              $(".typed-cursor").hide();
-              $(e.target).find(".typed-cursor").show();
-              rebuildKeypad();
-              $("#keypad_placeholder").show();
-              $("#keypad").slideDown();
+        if (options.showIncDec) {
+          $fake_input.addClass("showIncDec");
+        }
+        if (options.showDecimal) {
+          $fake_input.addClass("showDecimal");
+        }
 
-              //keypad_height = $(window).height() / 3 > 350 ? $(window).height() / 3 : 350
-              keypad_height = $("#keypad_placeholder").height();
-              screen_height = $(window).height() - keypad_height;
+        // $fake_input.on('touchstart', function(e) {
+        //     event.stopPropagation();
+        //     event.preventDefault();
+        //     if(event.handled !== true) {          
+        //       keypadVisible = true;
+        //       $(".typed-cursor").hide();
+        //       $(e.target).find(".typed-cursor").show();
+        //       rebuildKeypad();
+        //       $("#keypad_placeholder").show();
+        //       $("#keypad").slideDown();
 
-              $elem_placeholder.css("height", keypad_height);
+        //       keypad_height = $("#keypad_placeholder").height();
+        //       screen_height = $(window).height() - keypad_height;
 
-              $("html, body").animate({ scrollTop: findPos(e.target) - 
-                (screen_height - $(e.target).height() - 15) + keypad_scroll_fix}, 600);
+        //       $elem_placeholder.css("height", keypad_height);
 
-              $global_input = $('#' + e.target.id.substring(6));
+        //       $("html, body").animate({ scrollTop: findPos(e.target) - 
+        //         (screen_height - $(e.target).height() - 15) + keypad_scroll_fix}, 600);
 
-            }
-            else {
-              return false;
-            }
-        });
+        //       $global_input = $('#' + e.target.id.substring(6));
 
-        $fake_input.on('click', function(e) {
-          if(! /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-            setTimeout(function() {
-              if (!keypadVisible) {
-                $input.show();
-                $('#keypad' + input.id).hide();
-                $input.focus();
-              }
-            }, 300);
-          }
-        });
+        //     }
+        //     else {
+        //       return false;
+        //     }
+        // });
+
+        // $fake_input.on('click', function(e) {
+        //   if(! /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        //     setTimeout(function() {
+        //       if (!keypadVisible) {
+        //         $input.show();
+        //         $('#keypad' + input.id).hide();
+        //         $input.focus();
+        //       }
+        //     }, 300);
+        //   }
+        // });
 
         $input.on('blur', function(e) {
           if ($('#keypad' + input.id).length) {

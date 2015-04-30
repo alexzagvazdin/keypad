@@ -3,7 +3,7 @@
     width: 31%;
     height: 23%;
     background: #eee;
-    border: 2px solid black;
+    border: 1px solid black;
     border-radius: 10px;
     font-size: 1.5em;
 
@@ -68,11 +68,16 @@
 	display: none;
     margin: 0 auto;
     width: 100%;
-    height: 33%;
-    min-height: 350px;
+    height: 350px;
     z-index: 99999;
     background-color: #f1f9f5;
     background-image: linear-gradient(to bottom, #f1f9f5, #b5bFcE);
+}
+
+#keypad_placeholder {
+    height: 350px;
+    width: 100%;
+    display: none;
 }
 
 #keypad_inner {
@@ -80,6 +85,34 @@
     max-width: 400px;
     height: 85%;
     text-align: center;
+}
+
+
+/* for phone in landscape mode */
+@media only screen 
+and (max-height : 400px) 
+{ 
+
+    #keypad {
+        height: 150px;
+    }
+
+    #keypad_placeholder {
+        height: 150px;
+    }
+
+    .keypad button {
+        font-size: 1em;
+    }
+
+    #keypad_done {
+        display: none;
+    }
+
+    #keypad_inner {
+        height: 80%;
+    }
+
 }
 
 #keypad_top {
@@ -92,13 +125,6 @@
     border: none;
     background: transparent;
     text-align: right;
-}
-
-#keypad_placeholder {
-	height: 350px;
-	min-height: 350px;
-	width: 100%;
-	display: none;
 }
 
 .typed-cursor {
