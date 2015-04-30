@@ -29,7 +29,7 @@
         <input type="text" class="pad" id="numfield5" />
         <input type="text" class="pad" id="numfield6" />
         <input type="text" class="pad" id="numfield7" />
-        <input type="text" class="pad" id="numfield8" />
+        <input type="text" class="pad1" id="numfield8" />
     </form>
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="jquery.keypad.js"></script>
@@ -42,6 +42,7 @@
         };
         $(document).ready(function() {
              $(".pad").keypad({inputCssClass: "pad", showDecimal: false, showIncDec: true });
+             $("#numfield8").keypad({inputCssClass: "pad", showDecimal: false, showIncDec: true });
         });
 
 

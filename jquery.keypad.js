@@ -8,6 +8,16 @@ function findPos(obj) {
     }
 }
 
+var keypad_scroll_fix = 0;
+
+document.addEventListener("deviceready", function(){
+
+  // Adding proper scroll fix when content is opened insde the native app
+    if(/iPhone|iPad|iPod|/i.test(navigator.userAgent) ) {  
+      keypad_scroll_fix = 60;
+  }
+});
+
 ;(function($) {
   (function(pluginName) {
     var defaults = {
@@ -22,12 +32,7 @@ function findPos(obj) {
       inputCssClass: ""
     };
 
-    $.fn[pluginName] = function(options) {
-
-
-      if(!'ontouchstart' in document.documentElement) return;
-
-      options = $.extend(true, {}, defaults, options);
+    console.log("initing");
 
       keypadVisible = false;
 
@@ -42,124 +47,37 @@ function findPos(obj) {
         }
       }
 
-      $("body").append("<div id='keypad' class='keypad'><div id='keypad_top'><button id='keypad_done'>Done</button></div><div id='keypad_inner' class='keypad'></div></div><div id='keypad_placeholder'></div>");
+      var   $elem = $("#keypad_inner"),
+            $elem_placeholder = $("#keypad_placeholder");
 
-      var   $elem = jQuery.type(options.keypadDiv) == 'string' ? $(options.keypadDiv) : options.keypadDiv,
-            $elem_placeholder = jQuery.type(options.keypadPlaceholderDiv) == 'string' ? $(options.keypadPlaceholderDiv) : options.keypadPlaceholderDiv;
+      $(document).ready(function() {
+        $("body").append("<div id='keypad' class='keypad'><div id='keypad_top'><button id='keypad_done'>Done</button></div><div id='keypad_inner' class='keypad'></div></div><div id='keypad_placeholder'></div>");
 
+        $elem = $("#keypad_inner"),
+        $elem_placeholder = $("#keypad_placeholder");
 
         var numbers = Array.apply(null, Array(9)).map(function (_, i) {
-          return $(options.buttonTemplate).html(i+1).addClass('number');
+          return $("<button></button>").html(i+1).addClass('number');
         });
-        numbers.push($(options.buttonTemplate).html(".").addClass('number').addClass("decimal"));
-        numbers.push($(options.buttonTemplate).html("0").addClass('number').addClass('zero'));
-        numbers.push($(options.buttonTemplate).html(options.deleteButtonText).addClass(options.deleteButtonClass));
-        numbers.push($(options.buttonTemplate).html("-").addClass('dec'));
-        numbers.push($(options.buttonTemplate).html("+").addClass('inc'));
+        numbers.push($("<button></button>").html(".").addClass('number').addClass("decimal"));
+        numbers.push($("<button></button>").html("0").addClass('number').addClass('zero'));
+        numbers.push($("<button></button>").html("Del").addClass("delete"));
+        numbers.push($("<button></button>").html("-").addClass('dec'));
+        numbers.push($("<button></button>").html("+").addClass('inc'));
         $elem.html(numbers).addClass('keypad');
 
 
-      function rebuildKeypad() {
-
-        if (options.showIncDec) {
-          $('.number, .dec, .inc, .' + options.deleteButtonClass).css("height",  "18%");
-          $(".dec, .inc").show();
-        }
-        else {
-          $('.number, .dec, .inc, .' + options.deleteButtonClass).css("height",  "23%");
-          $(".dec, .inc").hide();
-        }
-        if (options.showDecimal) {
-          $(".zero").css("width", "31%");
-          $(".decimal").show();
-        }
-        else {
-          $(".zero").css("width", "64%");
-          $(".decimal").hide();
-        }
-
-      }  
-
-      $(document).on('touchend click', function(e) {
-          hideKeyPadIfRequired(e);
-          moveEvent = false;
-      });
-      $(document).on('touchmove', function(e) {
-          if (keypadVisible)  { 
+        $(document).on('touchend click', function(e) {
             hideKeyPadIfRequired(e);
-          }
-          moveEvent = true;
-      });
-
-            
-      return this.each(function() {
-
-        var input = this,
-          $input = $(input);
-
-
-        if(!'ontouchstart' in document.documentElement) return;
-
-        $input.after("<span class='keypad numinput " + options.inputCssClass + 
-          "' id='keypad" + 
-          input.id +
-          "'><span class='before_cursor'></span><span class='typed-cursor blinking'>|</span></span>");
-        $input.hide();
-        $('#keypad' + input.id).find("span.before_cursor").html($input.val());
-
-        $fake_input = $("#keypad" + input.id);
-
-        $fake_input.on('touchstart', function(e) {
-            event.stopPropagation();
-            event.preventDefault();
-            if(event.handled !== true) {          
-              keypadVisible = true;
-              $(".typed-cursor").hide();
-              $(e.target).find(".typed-cursor").show();
-              rebuildKeypad();
-              $elem_placeholder.show();
-              $("#keypad").slideDown();
-
-              keypad_height = $(window).height() / 3 > 350 ? $(window).height() / 3 : 350
-              screen_height = $(window).height() - keypad_height;
-
-              $elem_placeholder.css("height", keypad_height);
-
-              $("html, body").animate({ scrollTop: findPos(e.target) - 
-                (screen_height - $(e.target).height() - 15)}, 600);
-
-              $global_input = $('#' + e.target.id.substring(6));
-
+            moveEvent = false;
+        });
+        $(document).on('touchmove', function(e) {
+            if (keypadVisible)  { 
+              hideKeyPadIfRequired(e);
             }
-            else {
-              return false;
-            }
+            moveEvent = true;
         });
 
-        $fake_input.on('click', function(e) {
-          if(! /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-            setTimeout(function() {
-              if (!keypadVisible) {
-                $input.show();
-                $('#keypad' + input.id).hide();
-                $input.focus();
-              }
-            }, 300);
-          }
-        });
-
-        $input.on('blur', function(e) {
-          if ($('#keypad' + input.id).length) {
-            $input.hide();
-            $('#keypad' + input.id).show();
-          }
-        })
-
-        $input.on('change', function(e) {
-          if ($('#keypad' + input.id).length) {
-            $('#keypad' + input.id).find("span.before_cursor").html($input.val());
-          }
-        });
 
         $elem.find('.number').on('touchend click', function(e) {
           event.stopPropagation();
@@ -174,7 +92,7 @@ function findPos(obj) {
           }
         });
 
-        $elem.find('.' + options.deleteButtonClass).on('touchend click', function(e) {
+        $elem.find('.delete').on('touchend click', function(e) {
           event.stopPropagation();
           event.preventDefault();
           if(event.handled !== true) {          
@@ -223,6 +141,112 @@ function findPos(obj) {
 
         $elem.find("button").on("touchend mouseup", function(e) {
           $(e.target).removeClass("pressed");
+        });
+
+      })
+
+
+    $.fn[pluginName] = function(options) {
+
+      console.log("creating instance");
+
+      if(!'ontouchstart' in document.documentElement) return;
+
+      var   $elem = $("#keypad_inner"),
+            $elem_placeholder = $("#keypad_placeholder");
+
+
+      function rebuildKeypad() {
+
+        if (options.showIncDec) {
+          $('.number, .dec, .inc, .' + options.deleteButtonClass).css("height",  "18%");
+          $(".dec, .inc").show();
+        }
+        else {
+          $('.number, .dec, .inc, .' + options.deleteButtonClass).css("height",  "23%");
+          $(".dec, .inc").hide();
+        }
+        if (options.showDecimal) {
+          $(".zero").css("width", "31%");
+          $(".decimal").show();
+        }
+        else {
+          $(".zero").css("width", "64%");
+          $(".decimal").hide();
+        }
+
+      }  
+
+      options = $.extend(true, {}, defaults, options);
+            
+      return this.each(function() {
+
+        var input = this,
+          $input = $(input);
+
+
+        if(!'ontouchstart' in document.documentElement) return;
+
+        $input.after("<span class='keypad numinput " + options.inputCssClass + 
+          "' id='keypad" + 
+          input.id +
+          "'><span class='before_cursor'></span><span class='typed-cursor blinking'>|</span></span>");
+        $input.hide();
+        $('#keypad' + input.id).find("span.before_cursor").html($input.val());
+
+        $fake_input = $("#keypad" + input.id);
+
+        $fake_input.on('touchstart', function(e) {
+            event.stopPropagation();
+            event.preventDefault();
+            if(event.handled !== true) {          
+              keypadVisible = true;
+              $(".typed-cursor").hide();
+              $(e.target).find(".typed-cursor").show();
+              rebuildKeypad();
+              $("#keypad_placeholder").show();
+              $("#keypad").slideDown();
+
+              //keypad_height = $(window).height() / 3 > 350 ? $(window).height() / 3 : 350
+              keypad_height = $("#keypad_placeholder").height();
+              screen_height = $(window).height() - keypad_height;
+
+              $elem_placeholder.css("height", keypad_height);
+
+              $("html, body").animate({ scrollTop: findPos(e.target) - 
+                (screen_height - $(e.target).height() - 15) + keypad_scroll_fix}, 600);
+
+              $global_input = $('#' + e.target.id.substring(6));
+
+            }
+            else {
+              return false;
+            }
+        });
+
+        $fake_input.on('click', function(e) {
+          if(! /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+            setTimeout(function() {
+              if (!keypadVisible) {
+                $input.show();
+                $('#keypad' + input.id).hide();
+                $input.focus();
+              }
+            }, 300);
+          }
+        });
+
+        $input.on('blur', function(e) {
+          if ($('#keypad' + input.id).length) {
+            $input.hide();
+            $('#keypad' + input.id).show();
+          }
+        })
+
+        $input.on('change', function(e) {
+          if ($('#keypad' + input.id).length) {
+            $('#keypad' + input.id).find("span.before_cursor").html($input.val());
+          }
         });
 
       });

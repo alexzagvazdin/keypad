@@ -63,9 +63,35 @@
 
 
 #keypad {
-	position:fixed;
+	position: fixed;
 	bottom: 0;
 	display: none;
+    margin: 0 auto;
+    width: 100%;
+    height: 33%;
+    min-height: 350px;
+    z-index: 99999;
+    background-color: #f1f9f5;
+    background-image: linear-gradient(to bottom, #f1f9f5, #b5bFcE);
+}
+
+#keypad_inner {
+    margin: 0 auto;
+    max-width: 400px;
+    height: 85%;
+    text-align: center;
+}
+
+#keypad_top {
+    text-align: right;
+}
+
+#keypad_done {
+    font-size: 1em;
+    color: blue;
+    border: none;
+    background: transparent;
+    text-align: right;
 }
 
 #keypad_placeholder {
@@ -159,31 +185,3 @@ span.keypad {
 span.before_cursor {
 }
 
-#keypad {
-    margin: auto;
-    width: 100%;
-    height: 33%;
-    min-height: 350px;
-    z-index: 99999;
-    background-color: #f1f9f5;
-    background-image: linear-gradient(to bottom, #f1f9f5, #b5bFcE);
-}
-
-#keypad_inner {
-    margin: auto;
-    max-width: 400px;
-    height: 85%;
-    text-align: center;
-}
-
-#keypad_top {
-    text-align: right;
-}
-
-#keypad_done {
-    font-size: 1em;
-    color: blue;
-    border: none;
-    background: transparent;
-    text-align: right;
-}
